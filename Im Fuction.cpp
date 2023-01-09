@@ -114,7 +114,37 @@ int queries(int at , int left , int right , int l , int r){
   int y = queries(at * 2 + 1 , mid + 1 , right , l , r);
   return min(x , y);
 }
+----------------------------------------------------------
+//sparse table
+const int MAXN = 1e5 + 1;
 
+int logg[MAXN];
+int ar[MAXN];
+int st[MAXN][50];
+
+void Logs() {
+  logg[1] = 0 ;
+  for (int i = 2 ; i < MAXN ; i ++)
+    logg[i] = logg[i / 2] + 1;
+}
+
+void build(int n) {
+  for (int i = 0 ; i < n ; i ++) {
+    st[i][0] = ar[i];
+  }
+
+  for (int j = 1 ; j <= logg[n] ; j ++) {
+    for (int i = 0 ; i + (1 << j) <= n ; i ++) {
+      st[i][j] = min(st[i][j - 1] , st[i + (1 << (j - 1))][j - 1]);
+    }
+  }
+}
+
+int take_min(int a , int b) {
+  int k = logg[b - a + 1];
+  int ans = min(st[a][k] , st[b - (1 << k) + 1][k]);
+  return ans ;
+}
 -----------------------------------------------------------
 ll InclusionExclusion(ll ar[], ll m , ll n)
 {
