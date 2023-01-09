@@ -21,6 +21,148 @@ void Sieve(ll num)
       prime.push_back(i);
   }
 }
+-----------------------------------------------------------
+//bitset prime
+const int mx = 1e8 + 9;
+const int mxprime = 6e6 + 9 ;
+
+bitset <mx> mark;
+ull ans[mxprime];
+ull prime[mxprime] ;
+ll psz = 0 ;
+void Sieve() { 
+    mark[0] = mark[1] = 1;
+    prime[psz++] = 2;
+    int lim = sqrt(mx * 1.0) + 2;
+    for (int i = 4; i < mx; i += 2) mark[i] = 1;
+    for (int i = 3; i < mx; i += 2) {
+        if (!mark[i]) {
+            prime[psz++] = i;
+            if (i <= lim)
+                for (int j = i * i; j < mx; j += i)
+                    mark[j] = 1;
+        }
+    }
+}
+-----------------------------------------------------------
+//Merge Sort
+int arr[100005];
+ll inv=0;
+vector<int>lft,rght;
+void merge(int l,int r, int mid){
+    lft.clear();
+    rght.clear();
+    int i;
+    for(i=l;i<mid;i++){
+        lft.push_back(arr[i]);
+    }
+    for(i=mid;i<r;i++){
+        rght.push_back(arr[i]);
+    }
+    int j=0,k;
+    i=0;
+    k=l;
+    while(i<lft.size()&&j<rght.size()){
+          if(lft[i]<=rght[j]){
+             arr[k++]=lft[i++];
+          }
+          else{
+              inv=inv+lft.size()-i;
+              arr[k++]=rght[j++];
+          }
+    }
+    while(i<lft.size()){
+         arr[k++]=lft[i++];
+    }
+    while(j<rght.size()){
+         arr[k++]=rght[j++];
+    }
+}
+ 
+void mergesort(int l, int r){
+    if(l+1>=r) return;
+    int mid;
+    mid=(l+r)/2;
+    mergesort(l,mid);
+    mergesort(mid,r);
+    merge(l,r,mid);
+} 
+-----------------------------------------------------------
+//Segment tree
+const int maxN = 1e5 + 7;
+int ar[maxN];
+int tree[4 * maxN];
+
+void build(int at , int left , int right){
+  if(left == right){
+    tree[at] = ar[right];
+    return ;
+  }
+  int mid = (left + right) >> 1 ;
+  build(at * 2 , left , mid);
+  build(at * 2 + 1 , mid + 1 , right);
+  tree[at] = min(tree[at * 2] , tree[at * 2 + 1]);
+}
+
+int queries(int at , int left , int right , int l , int r){
+  if(r < left or right < l)
+    return (int)1e5 + 7 ;
+  if(l <= left and right <= r)
+    return tree[at];
+  int mid = (left + right) >> 1 ;
+  int x = queries(at * 2 , left , mid , l , r);
+  int y = queries(at * 2 + 1 , mid + 1 , right , l , r);
+  return min(x , y);
+}
+
+-----------------------------------------------------------
+ll InclusionExclusion(ll ar[], ll m , ll n)
+{
+    ll odd = 0, even = 0 , p = 1;
+    ll len = (1 << n);
+    for (ll i = 1; i < len ; i ++) {
+        p = 1;
+        for (ll j = 0; j < n; j++) {
+            if (i & (1 << j)) {
+                p = Lcm(p , ar[j]);
+            }
+        }
+        if (__builtin_popcount(i) & 1)
+            odd += (m / p);
+        else
+            even += (m / p);
+    }
+    return odd - even;
+}
+--------------------------------------------------------------------------
+//Bitwise Sieve
+
+vector < ll > Prime;
+const int mx = 2 * 1e8 ;
+int prime[mx / 32];
+void mark_true(int pos){
+    prime[pos / 32] |= (1 << (pos % 32));
+}
+bool is_prime(int pos){
+    return !(prime[pos / 32] & (1 << (pos % 32)));
+}
+void Sieve(){
+    int l = sqrt(mx) + 1;
+    Prime.push_back(2);
+    mark_true(1);
+    mark_true(0);
+    for (int i = 4 ; i < mx ; i += 2)mark_true(i);
+    for (int i = 3 ; i < mx ; i += 2){
+        if(is_prime(i)){
+            Prime.push_back(i);
+            if(i <= l){
+                for (int j = i * i ; j < mx ; j += i * 2){
+                    mark_true(j);
+                }
+            }
+        }
+    }
+}
 --------------------------------------------------------------------------
 bool cmp(pair < int , char > a , pair < int , char > b)
 {
@@ -217,6 +359,12 @@ ll bigmod(ll a , ll p , ll m)
     return ((c % m) * (c % m)) % m;
   }
 }
+----------------------------------------------------------------------------
+*** Find first  3  digit of n^k ;
+
+double p = (double) k * log10(n * 1.0);
+p -= (int)p;
+double ok = pow(10.0, p);
 ----------------------------------------------------------------------------
 **If I have to face a large number of factorial then i have to use this formula**
 firstly i have to find primefactor of that number
