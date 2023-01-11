@@ -1,3 +1,75 @@
+                           ----My Template ---
+/**Bismillahir Rahmanir Rahim.**/
+/**
+ *    author:  nasimnoob
+**/
+#include<bits/stdc++.h>
+using namespace std;
+//----------------------------------------------------------//
+typedef long long int                        ll;
+typedef unsigned long long int              ull;
+typedef long double                          ld;
+//-----------------------------------------------------------//
+#define      test                       int t; cin>>t;  while(t--)
+#define      dot(x)                     fixed << setprecision(x)
+#define      Case                       cout << "Case " << ++tt << ": " ;
+#define      PI                         acos(-1) // 3.1415926535897932
+#define      EPS                        (1e-7)
+#define      Nasim_Noob                 ios_base::sync_with_stdio(0);cin.tie(0);cout.tie(0);
+#define      Mod                        1000000007
+
+template <typename T> T Gcd(T a, T b) {if (a < 0)return Gcd(-a, b); if (b < 0)return Gcd(a, -b); return (b == 0) ? a : Gcd(b, a % b);} // better than __gcd
+template <typename T> T Lcm(T a, T b) {if (a < 0)return Lcm(-a, b); if (b < 0)return Lcm(a, -b); return a * (b / Gcd(a, b));}
+ll BigMod(ll p, ll e, ll M) {ll ret = 1; for (; e > 0; e >>= 1) { if (e & 1) ret = (ret * p) % M; p = (p * p) % M;} return (ll)ret;}
+ll modInverse(ll a, ll M) {return BigMod(a, M - 2, M);}
+
+// priority_queue<int> Q (greatar to smaller)
+// priority_queue<int, vector<int>, greater<int> > Q;   (smaller to greater)
+
+int chessx[] = { -1, -1, 1, 1, -2, -2, 2, 2}; //knight
+int chessy[] = { 2, -2, 2, -2, 1, -1, -1, 1}; //knight
+int xx[] = { 0, 0, 1, -1};
+int yy[] = { -1, 1, 0, 0};
+//scanf("%[^\n]%*c", str);
+
+//--------------------------------------Solution------------------------------//
+int tt = 0;
+
+void solve()
+{
+  test{
+    
+  }
+}
+
+int main()
+{
+#ifdef NASIM_NOOB
+  clock_t tStart = clock();
+  freopen("input.txt", "r", stdin);
+  freopen("output.txt", "w", stdout);
+#endif
+
+  Nasim_Noob ;
+  solve();
+
+
+#ifdef NASIM_NOOB
+  fprintf(stderr, "\n>> Runtime: %.10fs\n", (double) (clock() - tStart) / CLOCKS_PER_SEC);
+#endif
+
+  return 0 ;
+}
+
+--------------------------------------------------------------------------------------------
+                         ------ Algorithm Part ------
+--------------------------------------------------------------------------------------------
+
+                         ------ Number Theory -------
+
+        ---- Prime Number ----
+------------------------------------------------------------------
+
 bool mark[1000000];
 vector < ll > prime ;
 void Sieve(ll num)
@@ -21,152 +93,9 @@ void Sieve(ll num)
       prime.push_back(i);
   }
 }
------------------------------------------------------------
-//bitset prime
-const int mx = 1e8 + 9;
-const int mxprime = 6e6 + 9 ;
-
-bitset <mx> mark;
-ull ans[mxprime];
-ull prime[mxprime] ;
-ll psz = 0 ;
-void Sieve() { 
-    mark[0] = mark[1] = 1;
-    prime[psz++] = 2;
-    int lim = sqrt(mx * 1.0) + 2;
-    for (int i = 4; i < mx; i += 2) mark[i] = 1;
-    for (int i = 3; i < mx; i += 2) {
-        if (!mark[i]) {
-            prime[psz++] = i;
-            if (i <= lim)
-                for (int j = i * i; j < mx; j += i)
-                    mark[j] = 1;
-        }
-    }
-}
------------------------------------------------------------
-//Merge Sort
-int arr[100005];
-ll inv=0;
-vector<int>lft,rght;
-void merge(int l,int r, int mid){
-    lft.clear();
-    rght.clear();
-    int i;
-    for(i=l;i<mid;i++){
-        lft.push_back(arr[i]);
-    }
-    for(i=mid;i<r;i++){
-        rght.push_back(arr[i]);
-    }
-    int j=0,k;
-    i=0;
-    k=l;
-    while(i<lft.size()&&j<rght.size()){
-          if(lft[i]<=rght[j]){
-             arr[k++]=lft[i++];
-          }
-          else{
-              inv=inv+lft.size()-i;
-              arr[k++]=rght[j++];
-          }
-    }
-    while(i<lft.size()){
-         arr[k++]=lft[i++];
-    }
-    while(j<rght.size()){
-         arr[k++]=rght[j++];
-    }
-}
- 
-void mergesort(int l, int r){
-    if(l+1>=r) return;
-    int mid;
-    mid=(l+r)/2;
-    mergesort(l,mid);
-    mergesort(mid,r);
-    merge(l,r,mid);
-} 
------------------------------------------------------------
-//Segment tree
-const int maxN = 1e5 + 7;
-int ar[maxN];
-int tree[4 * maxN];
-
-void build(int at , int left , int right){
-  if(left == right){
-    tree[at] = ar[right];
-    return ;
-  }
-  int mid = (left + right) >> 1 ;
-  build(at * 2 , left , mid);
-  build(at * 2 + 1 , mid + 1 , right);
-  tree[at] = min(tree[at * 2] , tree[at * 2 + 1]);
-}
-
-int queries(int at , int left , int right , int l , int r){
-  if(r < left or right < l)
-    return (int)1e5 + 7 ;
-  if(l <= left and right <= r)
-    return tree[at];
-  int mid = (left + right) >> 1 ;
-  int x = queries(at * 2 , left , mid , l , r);
-  int y = queries(at * 2 + 1 , mid + 1 , right , l , r);
-  return min(x , y);
-}
-----------------------------------------------------------
-//sparse table
-const int MAXN = 1e5 + 1;
-
-int logg[MAXN];
-int ar[MAXN];
-int st[MAXN][50];
-
-void Logs() {
-  logg[1] = 0 ;
-  for (int i = 2 ; i < MAXN ; i ++)
-    logg[i] = logg[i / 2] + 1;
-}
-
-void build(int n) {
-  for (int i = 0 ; i < n ; i ++) {
-    st[i][0] = ar[i];
-  }
-
-  for (int j = 1 ; j <= logg[n] ; j ++) {
-    for (int i = 0 ; i + (1 << j) <= n ; i ++) {
-      st[i][j] = min(st[i][j - 1] , st[i + (1 << (j - 1))][j - 1]);
-    }
-  }
-}
-
-int take_min(int a , int b) {
-  int k = logg[b - a + 1];
-  int ans = min(st[a][k] , st[b - (1 << k) + 1][k]);
-  return ans ;
-}
------------------------------------------------------------
-ll InclusionExclusion(ll ar[], ll m , ll n)
-{
-    ll odd = 0, even = 0 , p = 1;
-    ll len = (1 << n);
-    for (ll i = 1; i < len ; i ++) {
-        p = 1;
-        for (ll j = 0; j < n; j++) {
-            if (i & (1 << j)) {
-                p = Lcm(p , ar[j]);
-            }
-        }
-        if (__builtin_popcount(i) & 1)
-            odd += (m / p);
-        else
-            even += (m / p);
-    }
-    return odd - even;
-}
---------------------------------------------------------------------------
-//Bitwise Sieve
-
+------------------------------------------------------------------
+     ----- Bitwise Prime -----
+------------------------------------------------------------------
 vector < ll > Prime;
 const int mx = 2 * 1e8 ;
 int prime[mx / 32];
@@ -193,31 +122,11 @@ void Sieve(){
         }
     }
 }
---------------------------------------------------------------------------
-bool cmp(pair < int , char > a , pair < int , char > b)
-{
-  if (a.first != b.first)
-    return a.first > b.first;
-  else
-    return a.second < b.second ;
-}
---------------------------------------------------------------------------
-/*A Space Optimized DP solution for 0 - 1 Knapsack Problem*/
+------------------------------------------------------------------
 
-ll knapSack(ll W, ll wt[], ll val[], ll n)
-{
-  ll dp[W + 1];
-  memset(dp , 0 , sizeof(dp));
 
-  for (int i = 0 ; i < n ; i ++) {
-    for (int j = W ; j >= wt[i] ; j --) {
-      dp[j] = max(dp[j] , val[i] + dp[j - wt[i]]);
-    }
-  }
-
-  return dp[W];
-}
--------------------------------------------------------------------------- -
+    ----Range of Prime Number----
+------------------------------------------------------------------
 bool mark[1000000];
 vector < ll > prime1 , prime ;
 
@@ -274,172 +183,12 @@ void primesInRange(ll low, ll high)
         prime.push_back(i);
     }
 }
-----------------------------------------------------------------------------
-/*Decimal to Binary*/
-vector < int > binaryNum ;
-void decToBinary(int n)
-{
-  while (n > 0) {
 
-    binaryNum.push_back(n % 2);
-    n = n / 2;
-  }
-}
-
--------------------------------------------------------------------------- -
-//convert hexadecimal to decimal
-int convert(char num[]) {
-  int len = strlen(num);
-  int base = 1;
-  int temp = 0;
-  for (int i = len - 1; i >= 0; i--) {
-    if (num[i] >= '0' && num[i] <= '9') {
-      temp += (num[i] - 48) * base;
-      base = base * 16;
-    }
-    else if (num[i] >= 'A' && num[i] <= 'F') {
-      temp += (num[i] - 55) * base;
-      base = base * 16;
-    }
-  }
-  return temp;
-}
--------------------------------------------------------------------------- -
-
-int binaryToDecimal(int n)
-{
-  int num = n;
-  int dec_value = 0;
-
-  int base = 1;
-
-  int temp = num;
-  while (temp) {
-    int last_digit = temp % 10;
-    temp = temp / 10;
-
-    dec_value += last_digit * base;
-
-    base = base * 2;
-  }
-
-  return dec_value;
-}
--------------------------------------------------------------------------- -
-void lcs(string s, string st, int n, int m)
-{
-  int ar [n + 1][m + 1];
-
-  for (int i = 0; i <= n; i++)
-  {
-    for (int j = 0; j <= m; j++)
-    {
-      if (i == 0 || j == 0)
-      {
-        ar[i][j] = 0;
-      }
-      else if (s[i - 1] == st[j - 1])
-      {
-        ar[i][j] = ar[i - 1][j - 1] + 1;
-      }
-      else
-      {
-        ar[i][j] = max(ar[i - 1][j], ar[i][j - 1]);
-      }
-    }
-  }
-
-  string str ;
-
-  int i = n, j = m;
-
-  while (i > 0 && j > 0)
-  {
-    if (s[i - 1] == st[j - 1])
-    {
-      str += s[i - 1];
-      i--;
-      j--;
-    }
-    else if (ar[i - 1][j] > ar[i][j - 1])
-      i--;
-    else
-      j--;
-  }
-
-  reverse(str.begin(), str.end());
-
-  cout << str << endl;
-
-  cout << str.size() << endl;
-}
-
----------------------------------------------------------------------------- -
-ll bigmod(ll a , ll p , ll m)
-{
-  if (p == 0)
-    return 1; // If power is 0, then a ^ 0 = 1 for any value of a, And 1 Mod m=1 for any value of m, So return 1
-  if (p % 2) // If power is odd, Split it : a ^ 5 😞 a )* (a ^ 4) --> left and right child respectively.
-  {
-    return ((a % m) * (bigmod(a , p - 1 , m))) % m;
-  }
-  else //If power is even then split it equally and return the result...
-  {
-    ll c = bigmod (a , p / 2 , m);
-    return ((c % m) * (c % m)) % m;
-  }
-}
-----------------------------------------------------------------------------
-*** Find first  3  digit of n^k ;
-
-double p = (double) k * log10(n * 1.0);
-p -= (int)p;
-double ok = pow(10.0, p);
-----------------------------------------------------------------------------
-**If I have to face a large number of factorial then i have to use this formula**
-firstly i have to find primefactor of that number
-
-for (int i = 0 ; i < primefactor.size() ; i ++ )
-{
-
-  ll prime = primefactor[i].first;
-  ll factor = primefactor[i].second;
-  ll copy = prime ;
-  int cnt = 0 ;
-  while (n / copy)
-  {
-    cnt += (n / copy);
-    copy *= prime ;
-  }
-
-  if (cnt < factor)
-  {
-    found = false ;
-    break;
-  }
-}
-----------------------------------------------------------------------------
-int binarySearch(int ar[], int x, int low, int high)
-{
-
-  while (low <= high)
-  {
-    int mid = low + (high - low) / 2;
-
-    if (ar[mid] == x)
-      return mid;
-
-    if (ar[mid] < x)
-      low = mid + 1;
-
-    else
-      high = mid - 1;
-  }
-
-  return -1;
-}
------------------------------------------------------------------------------- -
-
+-------------------------------------------------------------------
+    -----**If I have to face a large number of factorial 
+           then i have to use this formula
+           firstly i have to find primefactor of that number ------
+-------------------------------------------------------------------
 vector < ll > primefactor ;
 
 void primeFactors(int n)
@@ -462,106 +211,55 @@ void primeFactors(int n)
     primefactor.push_back(n);
 }
 
------------------------------------------------------------------------------- -
-int prime_factor (int num)
+for (int i = 0 ; i < primefactor.size() ; i ++ )
 {
+
+  ll prime = primefactor[i].first;
+  ll factor = primefactor[i].second;
+  ll copy = prime ;
   int cnt = 0 ;
-  int len = prime.size();
-
-  for (int i = 0 ; i * i <= len ; i++)
+  while (n / copy)
   {
-    if (num % prime[i] == 0)
-    {
-      while (num % prime[i] == 0)
-      {
-        cnt ++ ;
-
-        num = num / prime[i];
-      }
-
-    }
+    cnt += (n / copy);
+    copy *= prime ;
   }
 
-  if (num > 1)
+  if (cnt < factor)
   {
-    cnt ++ ;
+    found = false ;
+    break;
   }
-  return cnt ;
 }
--------------------------------------------------------------------------- -
-int getSum(int n)
+-------------------------------------------------------------------
+*** Find first  3  digit of n^k ;
+-------------------------------------------------------------------
+
+double p = (double) k * log10(n * 1.0);
+p -= (int)p;
+double ok = pow(10.0, p);
+
+-------------------------------------------------------------------
+          Big Mod
+-------------------------------------------------------------------
+ll bigmod(ll a , ll p , ll m)
 {
-  int sum = 0;
-  while (n != 0) {
-    sum = sum + n % 10;
-    n = n / 10;
-  }
-  return sum;
-}
------------------------------------------------------------------------------- -
-void simpleSieve(lld limit, vector<lld>& prime)
-{
-  bool mark[limit + 1];
-  memset(mark, false, sizeof(mark));
-
-  for (lld i = 2; i <= limit; ++i)
+  if (p == 0)
+    return 1; 
+  if (p % 2) 
   {
-    if (mark[i] == false)
-    {
-      prime.push_back(i);
-      for (lld j = i; j <= limit; j += i)
-        mark[j] = true;
-    }
+    return ((a % m) * (bigmod(a , p - 1 , m))) % m;
+  }
+  else 
+  {
+    ll c = bigmod (a , p / 2 , m);
+    return ((c % m) * (c % m)) % m;
   }
 }
+-------------------------------------------------------------------
 
-void primesInRange(lld low, lld high)
-{
-  lld limit = floor(sqrt(high)) + 1;
-  vector<lld> prime;
-  simpleSieve(limit, prime);
+   **Factorial (For Large Number)**
 
-  if (low == 1)
-  {
-    low++;
-  }
-
-  lld n = high - low + 1;
-
-  bool mark[n + 1];
-  memset(mark, false, sizeof(mark));
-
-  for (lld i = 0; i < prime.size(); i++)
-  {
-    lld loLim = floor(low / prime[i]) * prime[i];
-    if (loLim < low)
-      loLim += prime[i];
-    if (loLim == prime[i])
-      loLim += prime[i];
-
-    for (lld j = loLim; j <= high; j += prime[i])
-      if (j != prime[i])
-        mark[j - low] = true;
-  }
-
-  for (lld i = low; i <= high; i++)
-    if (!mark[i - low])
-      primeNumbers.push_back(i);
-}
-
-void callSieve(ull n)
-{
-  int range = n / 1000000;
-  lld high = 1000000, low = 2;
-  for (i = 0; i < range; i++)
-  {
-    primesInRange(low, high);
-    low = high + 1;
-    high += 1000000;
-  }
-}
 ---------------------------------------------------------------------------- -
-**Factorial**
 vector < int > Factorial ;
 
 void multiply(int x)
@@ -591,7 +289,8 @@ void multiply(int x)
 
 }
 ---------------------------------------------------------------------------- -
-**Fibonacci**
+          **Fibonacci (For Large Number)**
+---------------------------------------------------------------------------- -
 string Fibo[5010] ;
 
 string add(string a , string b)
@@ -639,8 +338,11 @@ string add(string a , string b)
   return res;
 
 }
------------------------------------------------------------- -
-**Permutation Without Function**
+-------------------------------------------------------------------
+
+         **Permutation Without Function**
+-------------------------------------------------------------------
+
 void Permuation_WithoutFun(string str , ll n)
 {
   int len = str.size() ;
@@ -692,8 +394,9 @@ void Permuation_WithoutFun(string str , ll n)
   cout << endl;
 }
 
---------------------------------------------------------------------
-//NcR
+-------------------------------------------------------------------
+          NcR
+------------------------------------------------------------------
 ll printNcR(ll n, ll r)
 {
   ll p = 1, k = 1;
@@ -720,40 +423,12 @@ ll printNcR(ll n, ll r)
 
   return p ;
 }
-------------------------------------------------------------------------
-//Find NCR
-ll p = r * (r - 1) ;
-ll q = (r + b - 1) * (r + b);
 
-*---------------------------------------------------------------------- -*
-// Function to implement lower_bound
-int lowerBound(int ara[], int low, int high, int key)
-{
-  int mid;
-  while (low < high) {
-    mid = (low + high) / 2;
-    if (ara[mid] >= key)
-      high = mid;
-    else
-      low = mid + 1;
-  }
-  return low;
-}
+-------------------------------------------------------------------
 
-int upperBound(int ara[], int low, int high, int key)
-{
-  int mid;
-  while (low < high) {
-    mid = (low + high) / 2;
-    if (ara[mid] <= key)
-      low = mid + 1;
-    else
-      high = mid;
-  }
-  return high;
-}
----------------------------------------------------------------------------- -
-//count co-prime of n
+           //count co-prime of n
+
+-------------------------------------------------------------------
 ll phi(ll n)
 {
   ll result = n;
@@ -770,8 +445,9 @@ ll phi(ll n)
     result -= result / n;
   return result;
 }
-------------------------------------------------------------------------------
-//count co-prime betwenn 1 to n
+-------------------------------------------------------------------
+        //count co-prime betwenn 1 to n
+-------------------------------------------------------------------
 void phi_1_to_n(int n) {
   vector<int> phi(n + 1);
   phi[0] = 0;
@@ -785,8 +461,130 @@ void phi_1_to_n(int n) {
     }
   }
 }
-------------------------------------------------------------------------------
-/*bfs to find sortest move to x node to y node*/
+-------------------------------------------------------------------
+    LCS
+-------------------------------------------------------------------
+void lcs(string s, string st, int n, int m)
+{
+  int ar [n + 1][m + 1];
+
+  for (int i = 0; i <= n; i++)
+  {
+    for (int j = 0; j <= m; j++)
+    {
+      if (i == 0 || j == 0)
+      {
+        ar[i][j] = 0;
+      }
+      else if (s[i - 1] == st[j - 1])
+      {
+        ar[i][j] = ar[i - 1][j - 1] + 1;
+      }
+      else
+      {
+        ar[i][j] = max(ar[i - 1][j], ar[i][j - 1]);
+      }
+    }
+  }
+
+  string str ;
+
+  int i = n, j = m;
+
+  while (i > 0 && j > 0)
+  {
+    if (s[i - 1] == st[j - 1])
+    {
+      str += s[i - 1];
+      i--;
+      j--;
+    }
+    else if (ar[i - 1][j] > ar[i][j - 1])
+      i--;
+    else
+      j--;
+  }
+
+  reverse(str.begin(), str.end());
+
+  cout << str << endl;
+
+  cout << str.size() << endl;
+}
+-------------------------------------------------------------
+         InclusionExclusion
+-------------------------------------------------------------
+ll InclusionExclusion(ll ar[], ll m , ll n)
+{
+    ll odd = 0, even = 0 , p = 1;
+    ll len = (1 << n);
+    for (ll i = 1; i < len ; i ++) {
+        p = 1;
+        for (ll j = 0; j < n; j++) {
+            if (i & (1 << j)) {
+                p = Lcm(p , ar[j]);
+            }
+        }
+        if (__builtin_popcount(i) & 1)
+            odd += (m / p);
+        else
+            even += (m / p);
+    }
+    return odd - even;
+}
+
+-------------------------------------------------------------
+         Merge Sort
+-------------------------------------------------------------
+
+int ar[100005];
+ll cnt = 0;
+vector < int > lft , rght;
+void merge(int l , int r , int mid){
+    lft.clear();
+    rght.clear();
+    int i;
+    for(i = l ; i < mid ; i ++){
+        lft.push_back(ar[i]);
+    }
+    for(i = mid ; i < r ; i ++){
+        rght.push_back(ar[i]);
+    }
+    int j = 0 , k ;
+    i = 0;
+    k = l;
+    while(i < lft.size() && j < rght.size()){
+          if(lft[i] <= rght[j]){
+             ar[k++] = lft[i++];
+          }
+          else{
+              ar[k++] = rght[j++];
+          }
+    }
+    while(i <lft.size()){
+         ar[k++] = lft[i++];
+    }
+    while(j < rght.size()){
+         ar[k++] = rght[j++];
+    }
+}
+ 
+void mergesort(int l, int r){
+    if(l + 1 >= r) return;
+    int mid;
+    mid = (l + r) / 2;
+    mergesort(l , mid);
+    mergesort(mid , r);
+
+    merge(l , r , mid);
+} 
+
+
+-------------------------------------------------------------
+                             ------- Graph ------
+-------------------------------------------------------------
+        bfs to find sortest move to x node to y node
+-------------------------------------------------------------
 bool mark[20][20];
 int dis[30][30];
 void bfs(int i, int j)
@@ -820,4 +618,88 @@ void bfs(int i, int j)
       }
     }
   }
+}
+
+-------------------------------------------------------------------
+                            Data Stucture 
+-------------------------------------------------------------------
+
+const int maxN = 1e5 + 7;
+int ar[maxN];
+int tree[4 * maxN];
+
+void build(int at , int left , int right){
+  if(left == right){
+    tree[at] = ar[right];
+    return ;
+  }
+  int mid = (left + right) >> 1 ;
+  build(at * 2 , left , mid);
+  build(at * 2 + 1 , mid + 1 , right);
+  tree[at] = min(tree[at * 2] , tree[at * 2 + 1]);
+}
+
+int queries(int at , int left , int right , int l , int r){
+  if(r < left or right < l)
+    return (int)1e5 + 7 ;
+  if(l <= left and right <= r)
+    return tree[at];
+  int mid = (left + right) >> 1 ;
+  int x = queries(at * 2 , left , mid , l , r);
+  int y = queries(at * 2 + 1 , mid + 1 , right , l , r);
+  return min(x , y);
+}
+
+-------------------------------------------------------------------
+                            DP
+-------------------------------------------------------------------
+
+-------------------------------------------------------------------
+/*A Space Optimized DP solution for 0 - 1 Knapsack Problem*/
+-------------------------------------------------------------------
+
+ll knapSack(ll W, ll wt[], ll val[], ll n)
+{
+  ll dp[W + 1];
+  memset(dp , 0 , sizeof(dp));
+
+  for (int i = 0 ; i < n ; i ++) {
+    for (int j = W ; j >= wt[i] ; j --) {
+      dp[j] = max(dp[j] , val[i] + dp[j - wt[i]]);
+    }
+  }
+
+  return dp[W];
+}
+-------------------------------------------------------------------
+                         //sparse table
+-------------------------------------------------------------------
+const int MAXN = 1e5 + 1;
+
+int logg[MAXN];
+int ar[MAXN];
+int st[MAXN][50];
+
+void Logs() {
+  logg[1] = 0 ;
+  for (int i = 2 ; i < MAXN ; i ++)
+    logg[i] = logg[i / 2] + 1;
+}
+
+void build(int n) {
+  for (int i = 0 ; i < n ; i ++) {
+    st[i][0] = ar[i];
+  }
+
+  for (int j = 1 ; j <= logg[n] ; j ++) {
+    for (int i = 0 ; i + (1 << j) <= n ; i ++) {
+      st[i][j] = min(st[i][j - 1] , st[i + (1 << (j - 1))][j - 1]);
+    }
+  }
+}
+
+int take_min(int a , int b) {
+  int k = logg[b - a + 1];
+  int ans = min(st[a][k] , st[b - (1 << k) + 1][k]);
+  return ans ;
 }
