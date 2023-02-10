@@ -239,6 +239,18 @@ p -= (int)p;
 double ok = pow(10.0, p);
 
 -------------------------------------------------------------------
+All Possible Subset of a array 
+-------------------------------------------------------------------
+for (int i = 0 ; i < (1LL << ar.size()) ; i ++){
+    for (int j = 0 ; j < ar.size() ; j ++){
+         if((i >> j) & 1LL){
+              cout << ar[j] << " ";
+          } 
+    }
+    cout << endl;
+}
+
+-------------------------------------------------------------------
           Big Mod
 -------------------------------------------------------------------
 ll bigmod(ll a , ll p , ll m)
@@ -626,29 +638,40 @@ void bfs(int i, int j)
       Segment Tree
 -------------------------------------------------------------------
 const int maxN = 1e5 + 7;
-int ar[maxN];
-int tree[4 * maxN];
+ll ar[maxN];
+ll tree[4 * maxN];
 
-void build(int at , int left , int right){
+void build(ll at , ll left , ll right){
   if(left == right){
-    tree[at] = ar[right];
+    tree[at] = ar[left];
     return ;
   }
-  int mid = (left + right) >> 1 ;
+  ll mid = (left + right) / 2 ;
   build(at * 2 , left , mid);
   build(at * 2 + 1 , mid + 1 , right);
-  tree[at] = min(tree[at * 2] , tree[at * 2 + 1]);
+  tree[at] = (tree[at * 2] * tree[at * 2 + 1]);
 }
-
-int queries(int at , int left , int right , int l , int r){
+void update(ll ind , ll low , ll high , ll i , ll newvalue){
+     if(i < low or i > high)
+          return ;
+     if(low == high){
+          tree[ind] = newvalue;
+          return ;
+     }
+     ll mid = (low + high) / 2;
+     update(2 * ind , low , mid , i , newvalue);
+     update(2 * ind + 1 , mid + 1 , high , i , newvalue);
+     tree[ind] = (tree[ind * 2] * tree[ind * 2 + 1]);
+}
+ll queries(ll at , ll left , ll right , ll l , ll r){
   if(r < left or right < l)
-    return (int)1e5 + 7 ;
+    return 1 ;
   if(l <= left and right <= r)
     return tree[at];
-  int mid = (left + right) >> 1 ;
-  int x = queries(at * 2 , left , mid , l , r);
-  int y = queries(at * 2 + 1 , mid + 1 , right , l , r);
-  return min(x , y);
+  ll mid = (left + right) / 2 ;
+  ll x = queries(at * 2 , left , mid , l , r);
+  ll y = queries(at * 2 + 1 , mid + 1 , right , l , r);
+  return (x * y);
 }
 
 -------------------------------------------------------------------
