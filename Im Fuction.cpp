@@ -17,14 +17,12 @@ typedef long double                          ld;
 #define      EPS                        (1e-7)
 #define      Nasim_Noob                 ios_base::sync_with_stdio(0);cin.tie(0);cout.tie(0);
 #define      Mod                        1000000007
+#define      debug                      cout << "found" << endl;
 
 template <typename T> T Gcd(T a, T b) {if (a < 0)return Gcd(-a, b); if (b < 0)return Gcd(a, -b); return (b == 0) ? a : Gcd(b, a % b);} // better than __gcd
 template <typename T> T Lcm(T a, T b) {if (a < 0)return Lcm(-a, b); if (b < 0)return Lcm(a, -b); return a * (b / Gcd(a, b));}
 ll BigMod(ll p, ll e, ll M) {ll ret = 1; for (; e > 0; e >>= 1) { if (e & 1) ret = (ret * p) % M; p = (p * p) % M;} return (ll)ret;}
 ll modInverse(ll a, ll M) {return BigMod(a, M - 2, M);}
-
-// priority_queue<int> Q (greatar to smaller)
-// priority_queue<int, vector<int>, greater<int> > Q;   (smaller to greater)
 
 int chessx[] = { -1, -1, 1, 1, -2, -2, 2, 2}; //knight
 int chessy[] = { 2, -2, 2, -2, 1, -1, -1, 1}; //knight
